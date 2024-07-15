@@ -1,0 +1,133 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+.App-header h1 {
+  font-size: 3rem;
+}
+
+nav {
+  margin: 20px 0;
+}
+
+nav button {
+  background-color: #61dafb;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+nav button:hover {
+  background-color: #21a1f1;
+}
+
+main {
+  padding: 20px;
+}
+
+.multi-timer-container {
+  text-align: center;
+}
+
+.new-timer-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.timer-name-input {
+  padding: 10px;
+  font-size: 16px;
+  margin-right: 10px;
+  width: 300px;
+}
+
+.add-timer-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 5px;
+}
+
+.timers-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.timer-wrapper {
+  margin: 10px;
+}
+
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  width: 300px;
+  background-color: #333;
+  color: #fff;
+}
+
+.timer-display {
+  font-size: 48px;
+  margin-bottom: 20px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.time-inputs {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.time-inputs input,
+.datetime-input {
+  padding: 10px;
+  font-size: 16px;
+  width: 80px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.start-button {
+  background-color: #61dafb;
+}
+
+.reset-button {
+  background-color: #f44336;
+}
+
+.remove-button {
+  background-color: #ff6347;
+}
+
+.timer-alert {
+  color: red;
+  font-size: 24px;
+  margin-top: 20px;
+}
