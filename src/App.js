@@ -3,8 +3,6 @@ import './App.css';
 import Memo from './components/Memo';
 import Timer from './components/Timer';
 import Calendar from './components/Calendar';
-import CalendarInput from './components/CalendarInput';
-import CalendarExEvents from './components/CalendarExEvents';
 
 function App() {
   const [currentComponent, setCurrentComponent] = useState('timer');
@@ -35,9 +33,7 @@ function App() {
       case 'calendar':
         return (
           <div>
-            <CalendarInput onCreate={handleCreateEvent} />
-            <CalendarExEvents events={events} />
-            <Calendar events={events} />
+            <Calendar events={events} setEvents={setEvents} />
           </div>
         );
       default:
