@@ -30,9 +30,14 @@ app.on('window-all-closed', () => {
 });
 
 ipcMain.on('save-note', (event, { directory, note }) => {
-  if (!fs.existsSync(directory)) {
-    fs.mkdirSync(directory, { recursive: true });
+  try {
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory, { recursive: true });
+    }
+    const filePath = path.join(directory, `note-${Date.now()}.md`);
+    fs.writeFileSync(filePath, note);
+    event.reply('note-saved', { success: true, filePath });
+  } catch (error) {
+    event.reply('note-saved', { success: false, error: error.message });
   }
-  const filePath = path.join(directory, `note-${Date.now()}.md`);
-  fs.writeFileSync(filePath, note);
 });

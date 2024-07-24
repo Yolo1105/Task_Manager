@@ -7,10 +7,22 @@ const Memo = () => {
   const [currentNote, setCurrentNote] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
   const [directory, setDirectory] = useState('D:\\task_manager_markdown');
+  const [saveStatus, setSaveStatus] = useState('');
 
   useEffect(() => {
     const savedNotes = JSON.parse(localStorage.getItem('notes')) || [];
     setNotes(savedNotes);
+
+    if (window.ipcRenderer) {
+      window.ipcRenderer.on('note-saved', (response) => {
+        setSaveStatus(response.success ? 'Note saved successfully!' : 'Failed to save note.');
+      });
+
+      // Cleanup listener on component unmount
+      return () => {
+        window.ipcRenderer.removeAllListeners('note-saved');
+      };
+    }
   }, []);
 
   useEffect(() => {
@@ -35,7 +47,13 @@ const Memo = () => {
     } else {
       setNotes([...notes, currentNote]);
     }
-    window.ipcRenderer.send('save-note', { directory, note: currentNote });
+
+    if (window.ipcRenderer) {
+      window.ipcRenderer.send('save-note', { directory, note: currentNote });
+    } else {
+      console.warn('ipcRenderer is not available. Note not saved to filesystem.');
+    }
+    
     setCurrentNote('');
   };
 
@@ -65,6 +83,7 @@ const Memo = () => {
       <button onClick={saveNote}>
         {editingIndex !== null ? 'Update Note' : 'Save Note'}
       </button>
+      {saveStatus && <p>{saveStatus}</p>}
       <div className="notes-list">
         {notes.map((note, index) => (
           <div key={index} className="note-item">

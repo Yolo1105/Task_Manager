@@ -1,0 +1,27 @@
+.calendar-container {
+  max-width: 900px;
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.drag-event {
+  padding: 10px;
+  margin: 5px;
+  background-color: skyblue;
+  cursor: pointer;
+  border: 1px solid #000;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  margin-right: 10px;
+  line-height: 2;
+}
+
+button {
+  padding: 5px 10px;
+}

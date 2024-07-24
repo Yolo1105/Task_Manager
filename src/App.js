@@ -2,56 +2,61 @@ import React, { useState } from 'react';
 import './App.css';
 import Memo from './components/Memo';
 import Timer from './components/Timer';
+import Calendar from './components/Calendar';
+import CalendarInput from './components/CalendarInput';
+import CalendarExEvents from './components/CalendarExEvents';
 
 function App() {
   const [currentComponent, setCurrentComponent] = useState('timer');
-  const [timers, setTimers] = useState([]);
-  const [newTimerName, setNewTimerName] = useState('');
+  const [events, setEvents] = useState([]);
 
-  const addTimer = () => {
-    if (newTimerName.trim() !== '') {
-      setTimers([...timers, { name: newTimerName, id: Date.now() }]);
-      setNewTimerName('');
+  // Function to check for duplicates based on title and start time
+  const isDuplicateEvent = (newEvent) => {
+    return events.some(event =>
+      event.title === newEvent.title &&
+      event.start.getTime() === newEvent.start.getTime()
+    );
+  };
+
+  const handleCreateEvent = (event) => {
+    if (!isDuplicateEvent(event)) {
+      setEvents([...events, event]);
+    } else {
+      alert('Duplicate event detected. The event was not added.');
     }
   };
 
-  const removeTimer = (id) => {
-    setTimers(timers.filter(timer => timer.id !== id));
+  const renderComponent = () => {
+    switch (currentComponent) {
+      case 'timer':
+        return <Timer />;
+      case 'memo':
+        return <Memo />;
+      case 'calendar':
+        return (
+          <div>
+            <CalendarInput onCreate={handleCreateEvent} />
+            <CalendarExEvents events={events} />
+            <Calendar events={events} />
+          </div>
+        );
+      default:
+        return <div>Please select a component from the header.</div>;
+    }
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>My Application</h1>
+        <h1>Task Manager</h1>
         <nav>
           <button onClick={() => setCurrentComponent('timer')}>Timer</button>
           <button onClick={() => setCurrentComponent('memo')}>Memo</button>
+          <button onClick={() => setCurrentComponent('calendar')}>Calendar</button>
         </nav>
       </header>
       <main>
-        {currentComponent === 'timer' ? (
-          <div className="multi-timer-container">
-            <div className="new-timer-form">
-              <input
-                type="text"
-                value={newTimerName}
-                onChange={(e) => setNewTimerName(e.target.value)}
-                placeholder="Enter timer name"
-                className="timer-name-input"
-              />
-              <button onClick={addTimer} className="add-timer-button">Add Timer</button>
-            </div>
-            <div className="timers-list">
-              {timers.map(timer => (
-                <div key={timer.id} className="timer-wrapper">
-                  <Timer name={timer.name} onRemove={() => removeTimer(timer.id)} />
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <Memo />
-        )}
+        {renderComponent()}
       </main>
     </div>
   );

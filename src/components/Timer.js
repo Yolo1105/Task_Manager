@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './Timer.css';
 
 const Timer = ({ name, onRemove }) => {
@@ -10,6 +10,12 @@ const Timer = ({ name, onRemove }) => {
   const [targetDate, setTargetDate] = useState('');
   const [showMessage, setShowMessage] = useState(true);
   const intervalRef = useRef(null);
+
+  const alertUser = useCallback(() => {
+    if (showMessage) {
+      alert('Time is up!');
+    }
+  }, [showMessage]);  // Ensures alertUser is updated when showMessage changes
 
   useEffect(() => {
     if (isActive && seconds > 0) {
@@ -23,7 +29,7 @@ const Timer = ({ name, onRemove }) => {
       alertUser();
     }
     return () => clearInterval(intervalRef.current);
-  }, [isActive, seconds]);
+  }, [isActive, seconds, alertUser]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -68,12 +74,6 @@ const Timer = ({ name, onRemove }) => {
     return `${hours.toString().padStart(2, '0')}:${minutes
       .toString()
       .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const alertUser = () => {
-    if (showMessage) {
-      alert('Time is up!');
-    }
   };
 
   return (
